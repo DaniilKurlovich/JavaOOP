@@ -10,10 +10,10 @@ public class Player {
     private int Agility;
     private int money = 0;
 
-    public Player(String name, int HP, int Power, int agility)
+    public Player(String name, int Power, int agility)
     {
         this.name = name;
-        this.HealthPoint = HP;
+        this.HealthPoint = 5 + Power;
         this.Power = Power;
         this.Agility = agility;
     }
@@ -32,17 +32,6 @@ public class Player {
     public int GetDamage(int factor)
     {
         return this.Power * factor;
-    }
-
-    public int GetChosePlayer(int min, int max, Scanner reader)
-    {
-        int choose = reader.nextInt();
-        if (choose < min || choose > max)
-        {
-            System.out.print("Неверный выбор. Попробуйте еще раз");
-            return GetChosePlayer(min, max, reader);
-        }
-        return choose;
     }
 
     public void GetReward(int money){
