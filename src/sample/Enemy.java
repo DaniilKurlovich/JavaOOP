@@ -5,13 +5,15 @@ import java.util.Random;
 public class Enemy {
     public String name;
     private int HealthPoint;
-    private int Damage;
+    private int Power;
+    private int Agility;
     private double Aggressiveness = 1.0;
 
-    public Enemy(String name, int HP, int Damage){
+    public Enemy(String name, int HP, int Power, int Agility){
         this.name = name;
         this.HealthPoint = HP;
-        this.Damage = Damage;
+        this.Power = Power;
+        this.Agility = Agility;
     }
 
     public boolean SetDamage(int damage){
@@ -20,7 +22,7 @@ public class Enemy {
     }
 
     public int GetDamage(int factor){
-        return this.Damage * factor;
+        return this.Power * factor;
     }
 
     public int GetReward(Random random){
