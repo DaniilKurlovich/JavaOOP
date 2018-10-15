@@ -20,6 +20,9 @@ public class Main {
         int Power = GetChoosePlayer(0, 10, reader, "Введите значение силы");
         int Agility = GetChoosePlayer(0, 10-Power, reader, "Введите желаемое значение ловкости");
         Player player = new Player("test", Power, Agility);
+
+        Game game = new Game(player);
+        game.startGame();
     }
 
     public static int GetChoosePlayer(int min, int max, Scanner reader, String Question)

@@ -34,6 +34,10 @@ public class Player {
         return this.Power * factor;
     }
 
+    public int GetDamage(){
+        return this.Power;
+    }
+
     public void GetReward(int money){
         this.money += money;
     }

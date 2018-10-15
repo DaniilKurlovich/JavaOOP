@@ -25,7 +25,15 @@ public class Enemy {
         return this.Power * factor;
     }
 
+    public int GetDamage(){
+        return this.Power;
+    }
+
     public int GetReward(Random random){
         return 10 * this.HealthPoint + random.nextInt(10);
+    }
+
+    public int GetHealthPoint(){
+        return this.HealthPoint;
     }
 }
