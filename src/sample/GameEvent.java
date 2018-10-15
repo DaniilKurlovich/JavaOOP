@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.Random;
+
 public class GameEvent {
     // индикатор благоприятности события, то есть плохое если false, иначе хорошее
     private boolean statusEventIsGood;
@@ -9,6 +11,12 @@ public class GameEvent {
 
     private Enemy enemy;
     private int getMoney;
+    private Enemy[] massiveEnemy = new Enemy[] {new Enemy("Василий", 1, 3, 1),
+            new Enemy("Петр", 100, 100, 0),
+            new Enemy("Роджер", 100, 3, 1),
+            new Enemy("Ростислав", 7, 3, 7),
+            new Enemy("Евгений", 1, 1000, 0),
+            new Enemy("Иван", 25, 1, 10)};
 
     public GameEvent(boolean statusEventIsGood){
         if (statusEventIsGood) {
@@ -17,10 +25,11 @@ public class GameEvent {
             this.textEvent = "Произошло благоприятное событие";
         }
         else{
+            Random random = new Random();
             this.statusEventIsGood = false;
             this.eventIsLive = true;
             this.textEvent = "Произошло чудовищное непоправимое событие";
-            this.enemy = new Enemy("Андрей - босс", 100, 100, 100);
+            this.enemy = massiveEnemy[random.nextInt(massiveEnemy.length)];
         }
 
     }
@@ -44,4 +53,6 @@ public class GameEvent {
     public int getEnemyHealthPoint(){
         return enemy.GetHealthPoint();
     }
+
+    public Enemy GetEnemy() {return this.enemy; }
 }
