@@ -43,10 +43,11 @@ public class Game {
                 System.out.println("Святые силы благославили тебя. Здоровье увеличенно на 5!");
             }
             else {
+                int reaward = lastGameEvent.GetEnemy().GetReward(new Random());
+                double result2 = CalculateChanceForWin(player, lastGameEvent.GetEnemy());
                 boolean result = SimulateFight(player, lastGameEvent.GetEnemy());
                 if (result){
                     System.out.println("В неравном бою " + lastGameEvent.GetEnemy().name + " был убит вашей рукой.");
-                    int reaward = lastGameEvent.GetEnemy().GetReward(new Random());
                     System.out.println("Вы заработали " + reaward);
                     player.GetReward(reaward);
                 }
@@ -67,12 +68,38 @@ public class Game {
 
     public boolean SimulateFight(Player player, Enemy enemy) {
         Random random = new Random();
+//        double chanceToWin = CalculateChanceForWin(player, enemy);
+        int numberOfAttacking = random.nextInt(1);
+        while (true){
+            switch (numberOfAttacking){
+                case(0):{
+                    if (random.nextInt(10) <= player.GetAgility()){
+                        enemy.SetDamage(player.GetDamage());
+                    }
+                    if (!enemy.IsAlive())
+                        return true;
+                    numberOfAttacking = (numberOfAttacking + 1) % 2;
+                }
+                case (1):{
+                    if (random.nextInt(10) <= enemy.GetAgility()) {
+                        player.SetDamage(player.GetDamage());
+                    }
+                    if (!player.IsAlive())
+                        return false;
+                    numberOfAttacking = (numberOfAttacking + 1) % 2;
+                }
+            }
+        }
+    }
+
+    public double CalculateChanceForWin(Player player, Enemy enemy){
+        Random random = new Random();
         int playerNeedAttack = (int)Math.ceil(Math.ceil((double)enemy.GetHealthPoint() / player.GetDamage()) * 10.0 / player.GetAgility());
         int enemyNeedAttack = (int)Math.ceil(Math.ceil((double)player.GetHealpoint() / enemy.GetDamage()) * 10.0 / enemy.GetAgility());
         System.out.println(String.format("Player need: {%d}, Enemy need: {%d}", playerNeedAttack, enemyNeedAttack));
         System.out.println(String.format("Enemy: HP={%d},Agility={%d},Power={%d}", enemy.GetHealthPoint(), enemy.GetAgility(), enemy.GetDamage()));
         if (enemyNeedAttack == 0){
-            return true;
+            return 1.0;
         }
         double chanceToWin;
         if (playerNeedAttack >= enemyNeedAttack){
@@ -82,16 +109,7 @@ public class Game {
             chanceToWin = 0.5 + (double)(enemyNeedAttack - playerNeedAttack) / enemyNeedAttack / 2;
         }
         System.out.println(chanceToWin);
-        return SimulateFight(chanceToWin, random);
-    }
-
-    public double GetChance(int countHit, int countAgility){
-        return Math.pow((10 - countAgility) / 10.0, countHit);
-    }
-
-    public boolean SimulateFight(double playerChanceToWin, Random random){
-        boolean result = playerChanceToWin >= random.nextDouble();
-        return result;
+        return chanceToWin;
     }
 
     public int GetChoosePlayer(String messageForPlayer, String[] arrayCommand, Scanner scanner){

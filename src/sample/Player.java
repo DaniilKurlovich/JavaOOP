@@ -18,11 +18,12 @@ public class Player {
         this.Agility = agility;
     }
 
-    public boolean SetDamage(int damage)
+    public void SetDamage(int damage)
     {
         this.HealthPoint -= damage;
-        return this.HealthPoint <= 0;
     }
+
+    public boolean IsAlive(){return this.HealthPoint > 0;}
 
     public int[] GetInfo()
     {

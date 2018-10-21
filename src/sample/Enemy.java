@@ -16,10 +16,11 @@ public class Enemy {
         this.Agility = Agility;
     }
 
-    public boolean SetDamage(int damage){
+    public void SetDamage(int damage){
         this.HealthPoint -= damage;
-        return this.HealthPoint <= 0;
     }
+
+    public boolean IsAlive(){return this.HealthPoint > 0;}
 
     public int GetDamage(int factor){
         return this.Power * factor;
