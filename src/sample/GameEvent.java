@@ -11,12 +11,8 @@ public class GameEvent {
 
     private Enemy enemy;
     private int getMoney;
-    private Enemy[] massiveEnemy = new Enemy[] {new Enemy("Василий", 1, 3, 1),
-            new Enemy("Петр", 100, 100, 0),
-            new Enemy("Роджер", 100, 3, 1),
-            new Enemy("Ростислав", 7, 3, 7),
-            new Enemy("Евгений", 1, 1000, 0),
-            new Enemy("Иван", 25, 1, 10)};
+    private String[] arrayGrades = new String[] {"Супермутант", "Таракан", "Алкоголик", "Гопник", "Просто человек"};
+    private String[] arrayNames = new String[] {"Володя", "Геннадий", "Семен", "Иван", "Демид"};
 
     public GameEvent(boolean statusEventIsGood){
         if (statusEventIsGood) {
@@ -29,7 +25,10 @@ public class GameEvent {
             this.statusEventIsGood = false;
             this.eventIsLive = true;
             this.textEvent = "Произошло чудовищное непоправимое событие";
-            this.enemy = massiveEnemy[random.nextInt(massiveEnemy.length)];
+            int power = random.nextInt(7) + 1;
+            int agility = 10 - power;
+            this.enemy = new Enemy(arrayGrades[random.nextInt(this.arrayGrades.length - 1)] + " " + arrayNames[random.nextInt(this.arrayNames.length - 1)],
+                    random.nextInt(15) + 2, power, agility);
         }
 
     }

@@ -37,7 +37,7 @@ public class Enemy {
         return this.HealthPoint;
     }
 
-    public double getAgility() {
+    public int GetAgility() {
         return this.Agility;
     }
 }

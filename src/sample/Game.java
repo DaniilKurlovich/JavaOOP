@@ -1,5 +1,6 @@
 package sample;
-import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,12 +20,8 @@ public class Game {
     public void throwEvent() {
         Random random = new Random();
         //Генерируется число, которое будет определять саму вероятность
-        int status = random.nextInt(10);
-        if (status <= 5) {
-            lastGameEvent = new GameEvent(true);
-        } else {
-            this.lastGameEvent = new GameEvent(false);
-        }
+        int status = random.nextInt(5);
+        lastGameEvent = new GameEvent(status == 1);
     }
 
     public void startGame() {
@@ -46,79 +43,63 @@ public class Game {
                 System.out.println("Святые силы благославили тебя. Здоровье увеличенно на 5!");
             }
             else {
-                System.out.println(CalculateChanceWinPlayer(player, lastGameEvent.GetEnemy()));
-                System.out.println("Введите /attack чтобы вступить в бой" +
-                        " ,иначе /leave");
-                String command = scanner.next();
-                switch (command){
-                    case ("/attack"): {
-                        int resultFight = SimulateFight(player, lastGameEvent.GetEnemy());
-                        switch (resultFight) {
-                            case (0): {
-                                System.out.println("Ты оказался сильнее, но повезет ли тебе в следующий раз?");
-                                player.GetReward(lastGameEvent.GetEnemy().GetReward(new Random()));
-                                break;
-                            }
-                            case (1):
-                                System.out.println("You died stupid cunt!");
-                                return;
-                        }
-                    }
-                    case ("/leave"): {
-                        break;
-                    }
+                boolean result = SimulateFight(player, lastGameEvent.GetEnemy());
+                if (result){
+                    System.out.println("В неравном бою " + lastGameEvent.GetEnemy().name + " был убит вашей рукой.");
+                    int reaward = lastGameEvent.GetEnemy().GetReward(new Random());
+                    System.out.println("Вы заработали " + reaward);
+                    player.GetReward(reaward);
                 }
-                System.out.println("Продолжить путешествие: /continue, Вернуться домой: /home. \n" +
-                        "Осталось здороья: "+ player.GetInfo()[0]);
-                command = scanner.next();
-                switch (command) {
-                    case ("/home"): {
-                        break;
-                    }
-                    case ("/continue"): {
-                        continue;
-                    }
+                else {
+                    System.out.println(lastGameEvent.GetEnemy().name + " убил вас");
+                    break;
+                }
+            }
+            int choosePlayer = GetChoosePlayer("Продолжить путешествие: /continue, Вернуться домой: /home. \n" +
+                    "Осталось здороья: "+ player.GetHealpoint(), new String[] {"/continue", "/home"}, scanner);
+            switch (choosePlayer){
+                case (1):{
+                    break;
                 }
             }
         }
     }
 
-    public String CalculateChanceWinPlayer(Player player, Enemy enemy){
-        int playerNeedAttack = enemy.GetHealthPoint() / player.GetDamage() - enemy.GetHealthPoint() % player.GetDamage();
-        int enemyNeedAttack = player.GetInfo()[0] / enemy.GetDamage() - player.GetInfo()[0] % enemy.GetDamage();
-        if (playerNeedAttack <= enemyNeedAttack){
-            return "Впереди ты видишь какого-то дрищавого лоха: " + enemy.name;
+    public boolean SimulateFight(Player player, Enemy enemy) {
+        Random random = new Random();
+        int playerNeedAttack = (int)Math.ceil(Math.ceil((double)enemy.GetHealthPoint() / player.GetDamage()) * 10.0 / player.GetAgility());
+        int enemyNeedAttack = (int)Math.ceil(Math.ceil((double)player.GetHealpoint() / enemy.GetDamage()) * 10.0 / enemy.GetAgility());
+        System.out.println(String.format("Player need: {%d}, Enemy need: {%d}", playerNeedAttack, enemyNeedAttack));
+        System.out.println(String.format("Enemy: HP={%d},Agility={%d},Power={%d}", enemy.GetHealthPoint(), enemy.GetAgility(), enemy.GetDamage()));
+        if (enemyNeedAttack == 0){
+            return true;
+        }
+        double chanceToWin;
+        if (playerNeedAttack >= enemyNeedAttack){
+            chanceToWin = 0.5 - (double)(playerNeedAttack - enemyNeedAttack) / playerNeedAttack / 2;
         }
         else {
-            return "Внутреннее чувство подсказывает, что домой тебя явно не вернуться: " + enemy.name;
+            chanceToWin = 0.5 + (double)(enemyNeedAttack - playerNeedAttack) / enemyNeedAttack / 2;
         }
+        System.out.println(chanceToWin);
+        return SimulateFight(chanceToWin, random);
     }
 
-    public int SimulateFight(Player player, Enemy enemy){
-        Random random = new Random();
-        int AttackFrom = random.nextInt(1);
-        while (true) {
-            switch (AttackFrom){
-                case (0):{
-                    double CanAttack = random.nextDouble();
-                    if (CanAttack <= player.GetInfo()[2] / 10.0) {
-                        if (enemy.SetDamage(player.GetDamage()))
-                            return 0;
-                    }
-                    AttackFrom = (AttackFrom + 1) % 2;
-                    break;
-                }
-                case (1):{
-                    double canAttack = random.nextDouble();
-                    if (canAttack <= enemy.getAgility() / 10.0) {
-                        if (player.SetDamage(enemy.GetDamage()))
-                            return 1;
-                    }
-                    AttackFrom = (AttackFrom + 1) % 2;
-                    break;
-                }
-            }
+    public double GetChance(int countHit, int countAgility){
+        return Math.pow((10 - countAgility) / 10.0, countHit);
+    }
+
+    public boolean SimulateFight(double playerChanceToWin, Random random){
+        boolean result = playerChanceToWin >= random.nextDouble();
+        return result;
+    }
+
+    public int GetChoosePlayer(String messageForPlayer, String[] arrayCommand, Scanner scanner){
+        String command = "";
+        while (!Arrays.asList(arrayCommand).contains(command)){
+            System.out.println(messageForPlayer);
+            command = scanner.next();
         }
+        return Arrays.asList(arrayCommand).indexOf(command);
     }
 }
-

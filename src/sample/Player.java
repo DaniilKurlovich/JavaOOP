@@ -29,6 +29,10 @@ public class Player {
         return new int[] {this.HealthPoint, this.Power, this.Agility};
     }
 
+    public int GetAgility(){return this.Agility;}
+
+    public int GetHealpoint() {return this.HealthPoint;}
+
     public int GetDamage(int factor)
     {
         return this.Power * factor;
