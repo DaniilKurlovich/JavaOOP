@@ -29,8 +29,7 @@ public class Game {
         while (true) {
             System.out.println("Началась игра, введите код-слово /adventure чтобы оптправиться в незабываемое " +
                     " удивительное приключение под названием жизнь");
-            if (player.GetInfo()[0] <= 5)
-                player.GetHealing(5 + player.GetInfo()[1]);
+            player.SetDefaultHP();
             adventure(player, scanner);
         }
     }
@@ -82,7 +81,7 @@ public class Game {
                 }
                 case (1):{
                     if (random.nextInt(10) <= enemy.GetAgility()) {
-                        player.SetDamage(player.GetDamage());
+                        player.SetDamage(enemy.GetDamage());
                     }
                     if (!player.IsAlive())
                         return false;

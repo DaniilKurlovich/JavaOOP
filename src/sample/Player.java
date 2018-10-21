@@ -9,11 +9,12 @@ public class Player {
     private int Power;
     private int Agility;
     private int money = 0;
+    private int DefaultHP;
 
     public Player(String name, int Power, int agility)
     {
         this.name = name;
-        this.HealthPoint = 5 + Power;
+        this.HealthPoint = this.DefaultHP = 5 + Power;
         this.Power = Power;
         this.Agility = agility;
     }
@@ -43,6 +44,7 @@ public class Player {
         return this.Power;
     }
 
+    public void SetDefaultHP(){this.HealthPoint = this.DefaultHP;}
     public void GetReward(int money){
         this.money += money;
     }
