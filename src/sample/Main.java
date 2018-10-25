@@ -13,20 +13,11 @@ public class Main {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(new TelegramHandler());
+            telegramBotsApi.registerBot(new TelegramHandler(new NewGame()));
         } catch (TelegramApiException e) {
             System.out.println("error");
         }
-        System.out.println("Здравствуй, игрок! " +
-                "Для того чтобы начать увлекательное путешествие тебе необходимо распределить очки навыков.\n" +
-                "Тебе доступно 10 очков для улучшения своего персонажа. Параметров доступных для улучшения 2.\n" +
-                "Сила влияет на количество нанесенного урона и кол-во здоровья, а ловкость на скорость и маневренность!\n");
-        int Power = GetChoosePlayer(0, 10, reader, "Введите значение силы");
-        int Agility = GetChoosePlayer(0, 10-Power, reader, "Введите желаемое значение ловкости");
-        Player player = new Player("test", Power, Agility);
 
-//        Game game = new Game(player);
-//        game.startGame();
     }
 
     public static int GetChoosePlayer(int min, int max, Scanner reader, String Question)

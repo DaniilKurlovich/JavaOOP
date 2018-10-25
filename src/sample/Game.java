@@ -1,4 +1,6 @@
 package sample;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
@@ -11,10 +13,12 @@ public class Game {
     private Player player;
     private Location location;
     private GameEvent lastGameEvent;
+    private TelegramBotsApi telegramBotAPI;
 
-    public Game(Player player) {
+    public Game(Player player, TelegramBotsApi telegramBotsApi) {
         this.player = player;
         this.location = Location.Camp;
+        this.telegramBotAPI = telegramBotsApi;
     }
 
     public void throwEvent() {

@@ -41,4 +41,6 @@ public class Enemy {
     public int GetAgility() {
         return this.Agility;
     }
+
+    public String GetName(){return this.name;}
 }
