@@ -17,7 +17,6 @@ public class Main {
         } catch (TelegramApiException e) {
             System.out.println("error");
         }
-
     }
 
     public static int GetChoosePlayer(int min, int max, Scanner reader, String Question)
