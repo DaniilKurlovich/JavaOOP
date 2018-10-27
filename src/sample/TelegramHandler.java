@@ -27,6 +27,10 @@ public class TelegramHandler extends TelegramLongPollingBot {
     public void onUpdateReceived(Update e) {
         Message msg = e.getMessage(); // Это нам понадобится
         String txt = msg.getText();
+        if (!game.HaveThisPlayer(msg.getChatId().toString()) && !txt.equals("/start")){
+            sendMsg(msg, "Персонаж еще не создан. /start - для создания персонажа");
+            return;
+        }
         if (Arrays.asList(arrayDefaultCommand).indexOf(txt) == 0){
             if (!game.HaveThisPlayer(msg.getChatId().toString())){
                 game.AddPlayerToDataBase(msg.getChatId().toString(), "default", 4, 4);
