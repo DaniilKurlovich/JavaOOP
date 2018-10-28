@@ -9,13 +9,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner reader = new Scanner(System.in);
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             telegramBotsApi.registerBot(new TelegramHandler(new NewGame()));
         } catch (TelegramApiException e) {
-            System.out.println("error");
+            System.out.println(e);
         }
     }
 

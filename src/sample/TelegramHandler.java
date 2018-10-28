@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class TelegramHandler extends TelegramLongPollingBot {
+    private Settings settings = new Settings("telegramCfg.properties");
     private NewGame game;
     private String[] arrayCommand = new String[]{};
     private String[] arrayDefaultCommand = new String[]{"/start", "/help"};
@@ -19,7 +20,7 @@ public class TelegramHandler extends TelegramLongPollingBot {
     }
     @Override
     public String getBotUsername() {
-        return "testBot518";
+        return settings.getPropertyValue("BOT_USERNAME");
         //возвращаем юзера
     }
 
@@ -27,10 +28,6 @@ public class TelegramHandler extends TelegramLongPollingBot {
     public void onUpdateReceived(Update e) {
         Message msg = e.getMessage(); // Это нам понадобится
         String txt = msg.getText();
-        if (!game.HaveThisPlayer(msg.getChatId().toString()) && !txt.equals("/start")){
-            sendMsg(msg, "Персонаж еще не создан. /start - для создания персонажа");
-            return;
-        }
         if (Arrays.asList(arrayDefaultCommand).indexOf(txt) == 0){
             if (!game.HaveThisPlayer(msg.getChatId().toString())){
                 game.AddPlayerToDataBase(msg.getChatId().toString(), "default", 4, 4);
@@ -62,7 +59,7 @@ public class TelegramHandler extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "796588779:AAERVH3ghaGXImw_NumoITDKU1BqippIbfc";
+        return settings.getPropertyValue("BOT_TOKEN");
         //Токен бота
     }
 

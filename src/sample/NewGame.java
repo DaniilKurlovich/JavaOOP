@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class NewGame {
-    private Map<String, MyStruct> DB = new HashMap<String, MyStruct>();
+    private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();
     private Map<String, String[]> arrayCommandForEachLocation = new HashMap<String, String[]>();
     private NameGenerator nameGenerator = new NameGenerator();
 
@@ -19,7 +19,7 @@ public class NewGame {
     }
 
     public void AddPlayerToDataBase(String chatID, String name, int power, int agility){
-        DB.put(chatID, new MyStruct(new Player(name, power, agility), "Camp", null));
+        DataBase.put(chatID, new MyStruct(new Player(name, power, agility), "Camp", null));
     }
 
     private void GenerateArrayComandForLocation(){
@@ -28,7 +28,7 @@ public class NewGame {
     }
 
     public String SetRequestFromHandler(String chatID, String text){
-        MyStruct infoAboutSession = this.DB.get(chatID);
+        MyStruct infoAboutSession = this.DataBase.get(chatID);
         if (infoAboutSession != null){
             String location = infoAboutSession.GetNameLocation();
             int numberCommand = GetNumberCommand(location, text);
@@ -36,14 +36,14 @@ public class NewGame {
                 return "Неправильно введена команда";
             }
             switch (location){
-                case "Camp":{
+                case "/camp":{
                     switch (numberCommand){
                         case (0):{
                             return GoToAdventure(chatID);
                         }
                     }
                 }
-                case "Adventure":{
+                case "/adventure":{
                     if (infoAboutSession.GetLastGameEvent() == null) {
                         infoAboutSession.SetGameEvent(generateGameEvent(infoAboutSession.GetPlayer()));
                     }
@@ -53,7 +53,7 @@ public class NewGame {
                     switch (numberCommand){
                         case (0):{
                             infoAboutSession.SetGameEvent(generateGameEvent(infoAboutSession.GetPlayer()));
-                            int resultEvent = infoAboutSession.GetLastGameEvent().GetResultEwent();
+                            int resultEvent = infoAboutSession.GetLastGameEvent().GetResultEvent();
                             if (resultEvent > 0){
                                 return String.format("Ты исцелился на %d", resultEvent);
                             }
@@ -86,7 +86,7 @@ public class NewGame {
     }
 
     private String ComeToCamp(String chatId, boolean wasKilled){
-        MyStruct info = DB.get(chatId);
+        MyStruct info = DataBase.get(chatId);
         info.GetPlayer().SetDefaultHP();
         info.SetNameLocation("Camp");
         if (!wasKilled)
@@ -97,13 +97,13 @@ public class NewGame {
     }
 
     private String GoToAdventure(String chatId){
-        DB.get(chatId).SetNameLocation("Adventure");
-        DB.get(chatId).SetGameEvent(null);
+        DataBase.get(chatId).SetNameLocation("Adventure");
+        DataBase.get(chatId).SetGameEvent(null);
         return "Ты отправляешься в путешествие. /continue идти дальше, /home вернуться домой";
     }
 
     public boolean HaveThisPlayer(String chatID){
-        MyStruct info = DB.get(chatID);
+        MyStruct info = DataBase.get(chatID);
         if (info == null){
             return false;
         }

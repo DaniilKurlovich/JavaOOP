@@ -24,16 +24,16 @@ public class NewGameEvent {
         this.eventIsProcessing = false;
     }
 
-    public int GetResultEwent(){
+    public int GetResultEvent(){
         if (this.healthBoost == 0) {
             this.eventIsProcessing = true;
-            Figth();
+            Fight();
             this.eventIsProcessing = false;
         }
         return this.healthBoost;
     }
 
-    private void Figth(){
+    private void Fight(){
         Random random = new Random();
 //        double chanceToWin = CalculateChanceForWin(player, enemy);
         int numberOfAttacking = random.nextInt(1);
@@ -42,6 +42,7 @@ public class NewGameEvent {
                 case(0):{
                     if (random.nextInt(10) <= player.GetAgility()){
                         enemy.SetDamage(player.GetDamage());
+
                     }
                     numberOfAttacking = (numberOfAttacking + 1) % 2;
                 }
