@@ -27,23 +27,26 @@ public class NewGame {
         this.arrayCommandForEachLocation.put("Adventure", new String[]{"/continue", "/home"});
     }
 
-    public String SetRequestFromHandler(String chatID, String text){
+    public String SetRequestFromHandler(String chatID, String textMessageFromPlayer){
         MyStruct infoAboutSession = this.DataBase.get(chatID);
         if (infoAboutSession != null){
             String location = infoAboutSession.GetNameLocation();
-            int numberCommand = GetNumberCommand(location, text);
+            if (textMessageFromPlayer.equals("/location")){
+                return GetInfoAboutLocation(location);
+            }
+            int numberCommand = GetNumberCommand(location, textMessageFromPlayer);
             if (numberCommand == -1){
                 return "Неправильно введена команда";
             }
             switch (location){
-                case "/camp":{
+                case "Camp":{
                     switch (numberCommand){
                         case (0):{
                             return GoToAdventure(chatID);
                         }
                     }
                 }
-                case "/adventure":{
+                case "Adventure":{
                     if (infoAboutSession.GetLastGameEvent() == null) {
                         infoAboutSession.SetGameEvent(generateGameEvent(infoAboutSession.GetPlayer()));
                     }
@@ -60,7 +63,8 @@ public class NewGame {
                             Player player = infoAboutSession.GetPlayer();
                             player.SetDamage(-resultEvent);
                             if(infoAboutSession.GetPlayer().IsAlive())
-                                return String.format("В равном бою %s был убит твоей рукой у тебя осталось %d ХП", infoAboutSession.GetLastGameEvent().GetNameEnemy(),player.GetHealpoint());
+                                return String.format("В равном бою %s был убит твоей рукой у тебя осталось %d ХП",
+                                        infoAboutSession.GetLastGameEvent().GetNameEnemy(),player.GetHealpoint());
                             return ComeToCamp(chatID, true);
                         }
                         case (1):{
@@ -71,6 +75,19 @@ public class NewGame {
             }
         }
         return "Default";
+    }
+
+    public String GetInfoAboutLocation(String nameLocation){
+        switch (nameLocation){
+            case("Camp"):{
+                return "Лагерь. Начальный хаб. Доступные команды: /adventure - Отправиться в путешествие";
+            }
+            case ("Adventure"):{
+                return "Ты находишься в пустоши. На каждому шагу тебе поджидается опасность. Доступные команды" +
+                        "/home - вернуться домой. /continue - идти дальше";
+            }
+        }
+        return "Error";
     }
 
     public int GetNumberCommand(String nameLocation, String command){

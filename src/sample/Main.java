@@ -16,17 +16,12 @@ public class Main {
         } catch (TelegramApiException e) {
             System.out.println(e);
         }
-    }
-
-    public static int GetChoosePlayer(int min, int max, Scanner reader, String Question)
-    {
-        System.out.println(Question + "(min: " + min + ", max: "+ max + ")");
-        int choose = reader.nextInt();
-        if (choose < min || choose > max)
-        {
-            System.out.println("Неверный выбор. Попробуйте еще раз");
-            return GetChoosePlayer(min, max, reader, Question);
-        }
-        return choose;
+//        Scanner reader = new Scanner(System.in);
+//        NewGame game = new NewGame();
+//        game.AddPlayerToDataBase("1", "default", 4, 4);
+//        while (true){
+//            String input =reader.next();
+//            System.out.println(game.SetRequestFromHandler("1", input));
+//        }
     }
 }
