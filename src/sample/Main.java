@@ -9,19 +9,19 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(new TelegramHandler(new NewGame()));
-        } catch (TelegramApiException e) {
-            System.out.println(e);
+        //ApiContextInitializer.init();
+        //TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        //try {
+        //    telegramBotsApi.registerBot(new TelegramHandler(new NewGame()));
+        //} catch (TelegramApiException e) {
+        //    System.out.println(e);
+        //}
+        Scanner reader = new Scanner(System.in);
+        NewGame game = new NewGame();
+        game.AddPlayerToDataBase("1", "default", 4, 4);
+        while (true){
+            String input =reader.next();
+            System.out.println(game.SetRequestFromHandler("1", input));
         }
-//        Scanner reader = new Scanner(System.in);
-//        NewGame game = new NewGame();
-//        game.AddPlayerToDataBase("1", "default", 4, 4);
-//        while (true){
-//            String input =reader.next();
-//            System.out.println(game.SetRequestFromHandler("1", input));
-//        }
     }
 }

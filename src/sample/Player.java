@@ -8,8 +8,9 @@ public class Player {
     private int HealthPoint;
     private int Power;
     private int Agility;
-    private int money = 0;
+    private int gold = 0;
     private int DefaultHP;
+    private int winStreak = 0;
 
     public Player(String name, int Power, int agility)
     {
@@ -45,11 +46,15 @@ public class Player {
     }
 
     public void SetDefaultHP(){this.HealthPoint = this.DefaultHP;}
-    public void GetReward(int money){
-        this.money += money;
+
+    public void SetReward(int gold){
+        System.out.println("Денег получено: " + gold);
+        this.gold += gold;
     }
 
     public void GetHealing(int heal){
         this.HealthPoint += heal;
     }
+
+    public void SetCountStreak(){ this.winStreak++; }
 }

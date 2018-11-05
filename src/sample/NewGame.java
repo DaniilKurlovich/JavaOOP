@@ -25,6 +25,7 @@ public class NewGame {
     private void GenerateArrayComandForLocation(){
         this.arrayCommandForEachLocation.put("Camp", new String[]{"/adventure"});
         this.arrayCommandForEachLocation.put("Adventure", new String[]{"/continue", "/home"});
+        this.arrayCommandForEachLocation.put("Shop", new String[]{"/shop"});
     }
 
     public String SetRequestFromHandler(String chatID, String textMessageFromPlayer){
@@ -72,6 +73,9 @@ public class NewGame {
                         }
                     }
                 }
+                case ("Shop"):{
+                    return goToShop(chatID);
+                }
             }
         }
         return "Default";
@@ -86,11 +90,15 @@ public class NewGame {
                 return "Ты находишься в пустоши. На каждому шагу тебе поджидается опасность. Доступные команды" +
                         "/home - вернуться домой. /continue - идти дальше";
             }
+            case ("Shop"):{
+                return "Вы находитесь в магазине";
+            }
         }
         return "Error";
     }
 
     public int GetNumberCommand(String nameLocation, String command){
+        System.out.println(nameLocation);
         return Arrays.asList(arrayCommandForEachLocation.get(nameLocation)).indexOf(command);
     }
 
@@ -117,6 +125,18 @@ public class NewGame {
         DataBase.get(chatId).SetNameLocation("Adventure");
         DataBase.get(chatId).SetGameEvent(null);
         return "Ты отправляешься в путешествие. /continue идти дальше, /home вернуться домой";
+    }
+
+    private String goToShop(String chatId) {
+        if (DataBase.get(chatId).GetNameLocation().equals("Camp")) {
+            DataBase.get(chatId).SetNameLocation("Shop");
+            DataBase.get(chatId).SetGameEvent(null);
+            return "Вы находитесь в магазине";
+        }
+        else
+        {
+            return "В магазин можно отправиться только с лагеря.";
+        }
     }
 
     public boolean HaveThisPlayer(String chatID){
