@@ -23,7 +23,7 @@ public class NewGame {
     }
 
     private void GenerateArrayComandForLocation(){
-        this.arrayCommandForEachLocation.put("Camp", new String[]{"/adventure"});
+        this.arrayCommandForEachLocation.put("Camp", new String[]{"/adventure", "/shop"});
         this.arrayCommandForEachLocation.put("Adventure", new String[]{"/continue", "/home"});
         this.arrayCommandForEachLocation.put("Shop", new String[]{"/shop"});
     }
@@ -44,6 +44,9 @@ public class NewGame {
                     switch (numberCommand){
                         case (0):{
                             return GoToAdventure(chatID);
+                        }
+                        case (1):{
+                            //"СЮДА ПИСАТЬ ЧТО ТЫ ХОЧЕШЬ КОГДА иГРОК НАПИСАЛ КОМАНДУ /shop";
                         }
                     }
                 }
