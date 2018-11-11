@@ -31,7 +31,6 @@ public class NewGameEvent {
         if (this.healthBoost == 0) {
             this.eventIsProcessing = true;
             Fight();
-            this.player.SetReward(this.gold);
             this.eventIsProcessing = false;
         }
         return this.healthBoost;

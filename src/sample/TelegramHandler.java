@@ -12,8 +12,6 @@ import java.util.Arrays;
 public class TelegramHandler extends TelegramLongPollingBot {
     private Settings settings = new Settings("telegramCfg.properties");
     private NewGame game;
-    private String[] arrayCommand = new String[]{};
-    private String[] arrayDefaultCommand = new String[]{"/start", "/help"};
 
     public TelegramHandler(NewGame game){
         this.game = game;
@@ -21,35 +19,13 @@ public class TelegramHandler extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         return settings.getPropertyValue("BOT_USERNAME");
-        //возвращаем юзера
     }
 
     @Override
     public void onUpdateReceived(Update e) {
         Message msg = e.getMessage(); // Это нам понадобится
         String txt = msg.getText();
-        if (!game.HaveThisPlayer(msg.getChatId().toString()) && !txt.equals("/start")){
-            sendMsg(msg, "Персонаж еще не создан. /start - для создания персонажа");
-            return;
-        }
-        if (Arrays.asList(arrayDefaultCommand).indexOf(txt) == 0){
-            if (!game.HaveThisPlayer(msg.getChatId().toString())){
-                game.AddPlayerToDataBase(msg.getChatId().toString(), "default", 4, 4);
-                sendMsg(msg, "Персонаж успешно создан. Введите /help для получения информации об игре, " +
-                        "либо /location для получения информации о текущей локации в которой вы находитесь.");
-                return;
-            }
-            else {
-                sendMsg(msg, "У вас уже есть свой персонаж");
-                return;
-            }
-        }
-        if (Arrays.asList(arrayDefaultCommand).indexOf(txt) == 1){
-            sendMsg(msg, "Текстовая игра ******* **. Цели игры нет, условий победы тоже." +
-                    "/location для получения о текущей локации в которой вы находитесь.");
-            return;
-        }
-        sendMsg(msg, game.SetRequestFromHandler(msg.getChatId().toString(), txt));
+        game.setRequestFromHandler(msg.getChatId().toString(), txt);
     }
 
     private void sendMsg(Message msg, String text) {
@@ -66,11 +42,6 @@ public class TelegramHandler extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         return settings.getPropertyValue("BOT_TOKEN");
-        //Токен бота
-    }
-
-    public void setArrayCommand(String[] arrayCommand){
-        this.arrayCommand = arrayCommand;
     }
 
 }

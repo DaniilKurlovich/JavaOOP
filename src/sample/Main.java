@@ -21,7 +21,7 @@ public class Main {
         game.AddPlayerToDataBase("1", "default", 4, 4);
         while (true){
             String input =reader.next();
-            System.out.println(game.SetRequestFromHandler("1", input));
+            System.out.println(game.setRequestFromHandler("1", input));
         }
     }
 }

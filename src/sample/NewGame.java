@@ -25,12 +25,69 @@ public class NewGame {
     private void GenerateArrayComandForLocation(){
         this.arrayCommandForEachLocation.put("Camp", new String[]{"/adventure", "/shop"});
         this.arrayCommandForEachLocation.put("Adventure", new String[]{"/continue", "/home"});
-        this.arrayCommandForEachLocation.put("Shop", new String[]{"/shop"});
     }
 
-    public String SetRequestFromHandler(String chatID, String textMessageFromPlayer){
+    public String setRequestFromHandler(String chatID, String textMessageFromPlayer) {
         MyStruct infoAboutSession = this.DataBase.get(chatID);
-        if (infoAboutSession != null){
+        switch (textMessageFromPlayer) {
+            case "/start": {
+                if (infoAboutSession == null) {
+                    this.AddPlayerToDataBase(chatID, "default", 4, 4);
+                    return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
+                            "либо /location для получения информации о текущей локации в которой вы находитесь.";
+                } else
+                    return "Персонаж уже был создан.";
+            }
+            case "/help":
+                return "Если вы только начали игру напишите /start для создания персонажа.";
+        }
+        if (infoAboutSession != null) {
+            switch (textMessageFromPlayer) {
+                case "/location":
+                    return infoAboutSession.GetNameLocation();
+                case "/adventure":
+                    switch (infoAboutSession.GetNameLocation()) {
+                        case "Camp": {
+                            return GoToAdventure(chatID);
+                        }
+                        case "Adventure": {
+                            return "Вы уже начали приключение.";
+                        }
+                    }
+                case "/home":
+                    switch (infoAboutSession.GetNameLocation()) {
+                        case "Camp": {
+                            return "Вы уже дома";
+                        }
+                        case "Adventure": {
+                            return ComeToCamp(chatID, false);
+                        }
+                    }
+                case "/continue":{
+                    if (infoAboutSession.GetNameLocation().equals("Adventure"))
+                    {
+                        infoAboutSession.SetGameEvent(generateGameEvent(this.DataBase.get(chatID).GetPlayer()));
+                        int resultEvent = infoAboutSession.GetLastGameEvent().GetResultEvent();
+                        if (resultEvent > 0){
+                            return String.format("Ты исцелился на %d", resultEvent);
+                        }
+                        Player player = infoAboutSession.GetPlayer();
+                        player.SetDamage(-resultEvent);
+                        if(infoAboutSession.GetPlayer().IsAlive())
+                            return String.format("В равном бою %s был убит твоей рукой у тебя осталось %d ХП",
+                                    infoAboutSession.GetLastGameEvent().GetNameEnemy(),player.GetHealpoint());
+                        return ComeToCamp(chatID, true);
+                    }
+                }
+                return "Такой команды не существует";
+            }
+        } else
+            return "Создайте персонажа.";
+        return "Такой команды не существует";
+    }
+        //MyStruct infoAboutSession = this.DataBase.get(chatID);
+
+        /*if (infoAboutSession != null){
             String location = infoAboutSession.GetNameLocation();
             if (textMessageFromPlayer.equals("/location")){
                 return GetInfoAboutLocation(location);
@@ -83,22 +140,7 @@ public class NewGame {
         }
         return "Default";
     }
-
-    public String GetInfoAboutLocation(String nameLocation){
-        switch (nameLocation){
-            case("Camp"):{
-                return "Лагерь. Начальный хаб. Доступные команды: /adventure - Отправиться в путешествие";
-            }
-            case ("Adventure"):{
-                return "Ты находишься в пустоши. На каждому шагу тебе поджидается опасность. Доступные команды" +
-                        "/home - вернуться домой. /continue - идти дальше";
-            }
-            case ("Shop"):{
-                return "Вы находитесь в магазине";
-            }
-        }
-        return "Error";
-    }
+    */
 
     public int GetNumberCommand(String nameLocation, String command){
         return Arrays.asList(arrayCommandForEachLocation.get(nameLocation)).indexOf(command);
