@@ -1,0 +1,13 @@
+name: IronSword
+    cost:200
+    damage:8
+    agility:-3
+    hp:0
+    description:simple description
+
+name: WoodenSword
+    cost:30
+    damage:2
+    agility:0
+    hp:0
+    description:simple description

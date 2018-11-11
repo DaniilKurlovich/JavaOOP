@@ -101,7 +101,6 @@ public class NewGame {
     }
 
     public int GetNumberCommand(String nameLocation, String command){
-        System.out.println(nameLocation);
         return Arrays.asList(arrayCommandForEachLocation.get(nameLocation)).indexOf(command);
     }
 
