@@ -16,31 +16,31 @@ public class Enemy {
         this.Agility = Agility;
     }
 
-    public void SetDamage(int damage){
+    public void setDamage(int damage){
         this.HealthPoint -= damage;
     }
 
-    public boolean IsAlive(){return this.HealthPoint > 0;}
+    public boolean isAlive(){return this.HealthPoint > 0;}
 
-    public int GetDamage(int factor){
+    public int getDamage(int factor){
         return this.Power * factor;
     }
 
-    public int GetDamage(){
+    public int getDamage(){
         return this.Power;
     }
 
-    public int GetReward(Random random){
+    public int getReward(Random random){
         return 10 * this.HealthPoint + random.nextInt(10);
     }
 
-    public int GetHealthPoint(){
+    public int getHealthPoint(){
         return this.HealthPoint;
     }
 
-    public int GetAgility() {
+    public int getAgility() {
         return this.Agility;
     }
 
-    public String GetName(){return this.name;}
+    public String getName(){return this.name;}
 }

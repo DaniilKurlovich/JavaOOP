@@ -27,30 +27,30 @@ public class NewGameEvent {
         this.eventIsProcessing = false;
     }
 
-    public int GetResultEvent(){
+    public int getResultEvent(){
         if (this.healthBoost == 0) {
             this.eventIsProcessing = true;
-            Fight();
+            fight();
             this.eventIsProcessing = false;
         }
         return this.healthBoost;
     }
 
-    private void Fight(){
+    private void fight(){
         Random random = new Random();
 //        double chanceToWin = CalculateChanceForWin(player, enemy);
         int numberOfAttacking = random.nextInt(1);
-        while (this.player.GetHealpoint() > -this.healthBoost && this.enemy.IsAlive()){
+        while (this.player.GetHealpoint() > -this.healthBoost && this.enemy.isAlive()){
             switch (numberOfAttacking){
                 case(0):{
                     if (random.nextInt(10) <= player.GetAgility()){
-                        enemy.SetDamage(player.GetDamage());
+                        enemy.setDamage(player.GetDamage());
                     }
                     numberOfAttacking = (numberOfAttacking + 1) % 2;
                 }
                 case (1):{
-                    if (random.nextInt(10) <= enemy.GetAgility()) {
-                        this.healthBoost -= enemy.GetDamage();
+                    if (random.nextInt(10) <= enemy.getAgility()) {
+                        this.healthBoost -= enemy.getDamage();
                     }
                     numberOfAttacking = (numberOfAttacking + 1) % 2;
                 }
@@ -58,11 +58,11 @@ public class NewGameEvent {
         }
     }
 
-    public boolean EventIsProcessing(){
+    public boolean eventIsProcessing(){
         return this.eventIsProcessing;
     }
 
-    public String GetNameEnemy(){
-        return this.enemy.GetName();
+    public String getNameEnemy(){
+        return this.enemy.getName();
     }
 }

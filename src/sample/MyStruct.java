@@ -11,24 +11,24 @@ public class MyStruct {
         this.LastGameEvent = gameEvent;
     }
 
-    public void SetNameLocation(String nameLocation){
+    public void setNameLocation(String nameLocation){
         this.nameLocation = nameLocation;
     }
 
-    public String GetNameLocation(){
+    public String getNameLocation(){
         return this.nameLocation;
     }
 
-    public Player GetPlayer(){
+    public Player getPlayer(){
         return this.player;
     }
 
-    public NewGameEvent GetLastGameEvent()
+    public NewGameEvent getLastGameEvent()
     {
         return this.LastGameEvent;
     }
 
-    public void SetGameEvent(NewGameEvent gameEvent){
+    public void setGameEvent(NewGameEvent gameEvent){
         this.LastGameEvent = gameEvent;
     }
 }

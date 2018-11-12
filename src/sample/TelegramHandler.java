@@ -16,6 +16,7 @@ public class TelegramHandler extends TelegramLongPollingBot {
     public TelegramHandler(NewGame game){
         this.game = game;
     }
+
     @Override
     public String getBotUsername() {
         return settings.getPropertyValue("BOT_USERNAME");
