@@ -18,7 +18,6 @@ public class Main {
         //}
         Scanner reader = new Scanner(System.in);
         NewGame game = new NewGame();
-        game.AddPlayerToDataBase("1", "default", 4, 4);
         while (true){
             String input =reader.next();
             System.out.println(game.setRequestFromHandler("1", input));
