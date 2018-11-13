@@ -19,7 +19,7 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         NewGame game = new NewGame();
         while (true){
-            String input =reader.next();
+            String input = reader.next();
             System.out.println(game.setRequestFromHandler("1", input));
         }
     }

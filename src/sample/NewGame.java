@@ -133,7 +133,8 @@ public class NewGame {
                     for (String locations:
                             arrayCommandForEachLocation.keySet()) {
                         if (this.getNumberCommand(locations, textMessageFromPlayer) != -1){
-                            return String.format("Вы должны находиться в локации %s, что бы использовать эту команду", locations);
+                            return String.format("Вы должны находиться в локации %s, что бы использовать эту команду",
+                                    locations);
                         }
 
                     }
@@ -142,6 +143,11 @@ public class NewGame {
             }
         }
         return "Default";
+    }
+
+    public String getLocation(String chatId)
+    {
+        return this.DataBase.get(chatId).getNameLocation();
     }
 
     public String getInfoAboutLocation(String nameLocation){
