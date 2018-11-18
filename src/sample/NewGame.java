@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.List;
 
 public class NewGame {
     private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();
@@ -19,126 +20,52 @@ public class NewGame {
     }
 
     private void generateArrayComandForLocation(){
-        this.arrayCommandForEachLocation.put("Camp", new String[]{"/adventure", "/shop"});
-        this.arrayCommandForEachLocation.put("Adventure", new String[]{"/continue", "/home"});
+
     }
 
     public String setRequestFromHandler(String chatID, String textMessageFromPlayer) {
         MyStruct infoAboutSession = this.DataBase.get(chatID);
-        switch (textMessageFromPlayer) {
-            case "/start": {
+
+        if (textMessageFromPlayer.equals("/help"))
+            return "Если вы только начали игру напишите /start для создания персонажа.";
+        else if (textMessageFromPlayer.equals("/start"))
                 if (infoAboutSession == null) {
                     this.addPlayerToDataBase(chatID, "default", 4, 4);
                     return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
-                            "либо /location для получения информации о текущей локации в которой вы находитесь.";
-                } else
+                        "либо /location для получения информации о текущей локации в которой вы находитесь.";
+                }
+                else
                     return "Персонаж уже был создан.";
-            }
-            case "/help":
-                return "Если вы только начали игру напишите /start для создания персонажа.";
-        }
-//        if (infoAboutSession != null) {
-//            switch (textMessageFromPlayer) {
-//                case "/location":
-//                    return infoAboutSession.getNameLocation();
-//                case "/adventure":
-//                    switch (infoAboutSession.getNameLocation()) {
-//                        case "Camp": {
-//                            return goToAdventure(chatID);
-//                        }
-//                        case "Adventure": {
-//                            return "Вы уже начали приключение.";
-//                        }
-//                    }
-//                case "/home":
-//                    switch (infoAboutSession.getNameLocation()) {
-//                        case "Camp": {
-//                            return "Вы уже дома";
-//                        }
-//                        case "Adventure": {
-//                            return ComeToCamp(chatID, false);
-//                        }
-//                    }
-//                case "/continue":{
-//                    if (infoAboutSession.getNameLocation().equals("Adventure"))
-//                    {
-//                        infoAboutSession.setGameEvent(generateGameEvent(this.DataBase.get(chatID).getPlayer()));
-//                        int resultEvent = infoAboutSession.getLastGameEvent().getResultEvent();
-//                        if (resultEvent > 0){
-//                            return String.format("Ты исцелился на %d", resultEvent);
-//                        }
-//                        Player player = infoAboutSession.getPlayer();
-//                        player.setDamage(-resultEvent);
-//                        if(infoAboutSession.getPlayer().isAlive())
-//                            return String.format("В равном бою %s был убит твоей рукой у тебя осталось %d ХП",
-//                                    infoAboutSession.getLastGameEvent().getNameEnemy(),player.GetHealpoint());
-//                        return ComeToCamp(chatID, true);
-//                    }
-//                }
-//                return "Такой команды не существует";
-//            }
-//        } else
-//            return "Создайте персонажа.";
-//        return "Такой команды не существует";
-
-        //MyStruct infoAboutSession = this.DataBase.get(chatID);
-
         if (infoAboutSession != null){
             String location = infoAboutSession.getNameLocation();
             if (textMessageFromPlayer.equals("/location")){
                 return getInfoAboutLocation(location);
             }
-            int numberCommand = getNumberCommand(location, textMessageFromPlayer);
-//            if (numberCommand == -1){
-//                return "Неправильно введена команда";
-//            }
-            switch (location){
-                case "Camp":{
-                    switch (textMessageFromPlayer){
-                        case ("/adventure"):{
-                            return goToAdventure(chatID);
-                        }
-                        case ("/shop"): {
-                            return "Магазин не работает";
-                        }
-                    }
+            if (location.equals("Camp")) {
+                if (textMessageFromPlayer.equals("/adventure"))
+                    return goToAdventure(chatID);
+                if (textMessageFromPlayer.equals("/shop"))
+                    return "Магазин не работает";
                 }
-                case "Adventure":{
-                    if (infoAboutSession.getLastGameEvent() == null) {
-                        infoAboutSession.setGameEvent(generateGameEvent(infoAboutSession.getPlayer()));
-                    }
-                    if (infoAboutSession.getLastGameEvent().eventIsProcessing()){
-                        return "Дождитесь завершения прошлого события";
-                    }
-                    switch (textMessageFromPlayer){
-                        case ("/continue"):{
-                            infoAboutSession.setGameEvent(generateGameEvent(infoAboutSession.getPlayer()));
-                            int resultEvent = infoAboutSession.getLastGameEvent().getResultEvent();
-                            if (resultEvent > 0){
-                                return String.format("Ты исцелился на %d", resultEvent);
-                            }
-                            Player player = infoAboutSession.getPlayer();
-                            player.SetDamage(-resultEvent);
-                            if(infoAboutSession.getPlayer().IsAlive())
-                                return String.format("В равном бою %s был убит твоей рукой у тебя осталось %d ХП",
-                                        infoAboutSession.getLastGameEvent().getNameEnemy(),player.GetHealpoint());
-                            return ComeToCamp(chatID, true);
-                        }
-                        case ("/home"):{
-                            return ComeToCamp(chatID, false);
-                        }
-                    }
+            if (location.equals("Adventure")){
+                if (infoAboutSession.getLastGameEvent() == null) {
+                    infoAboutSession.setGameEvent(generateGameEvent(infoAboutSession.getPlayer()));
                 }
-                default:{
-                    for (String locations:
-                            arrayCommandForEachLocation.keySet()) {
-                        if (this.getNumberCommand(locations, textMessageFromPlayer) != -1){
-                            return String.format("Вы должны находиться в локации %s, что бы использовать эту команду",
-                                    locations);
-                        }
-
+                if (textMessageFromPlayer.equals("/continue")){
+                    infoAboutSession.setGameEvent(generateGameEvent(infoAboutSession.getPlayer()));
+                    int resultEvent = infoAboutSession.getLastGameEvent().getResultEvent();
+                    if (resultEvent > 0){
+                        return String.format("Ты исцелился на %d", resultEvent);
                     }
-
+                    Player player = infoAboutSession.getPlayer();
+                    player.SetDamage(-resultEvent);
+                    if(infoAboutSession.getPlayer().IsAlive())
+                        return String.format("В равном бою %s был убит твоей рукой у тебя осталось %d ХП",
+                                infoAboutSession.getLastGameEvent().getNameEnemy(),player.GetHealpoint());
+                    return ComeToCamp(chatID, true);
+                }
+                if (textMessageFromPlayer.equals("/home")){
+                    return ComeToCamp(chatID, false);
                 }
             }
         }
