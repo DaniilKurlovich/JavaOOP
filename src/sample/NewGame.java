@@ -69,7 +69,7 @@ public class NewGame {
                 }
             }
         }
-        return "Default";
+        return "Неправильно введена команда";
     }
 
     public String getLocation(String chatId)
