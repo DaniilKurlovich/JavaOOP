@@ -1,4 +1,4 @@
-package sample;
+package Creatures;
 
 import java.io.BufferedReader;
 import java.util.Scanner;

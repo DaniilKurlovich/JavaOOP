@@ -1,13 +1,11 @@
-package sample;
+package telegramHandler;
 
+import GameFile.NewGame;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class TelegramHandler extends TelegramLongPollingBot {
     private Settings settings = new Settings("telegramCfg.properties");

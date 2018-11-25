@@ -1,8 +1,8 @@
 import org.junit.Assert;
 import org.junit.Test;
-import sample.NewGame;
-import sample.NewGameEvent;
-import sample.Player;
+import GameFile.NewGame;
+import GameFile.NewGameEvent;
+import Creatures.Player;
 
 public class test_game {
     NewGame testGame = new NewGame();

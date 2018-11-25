@@ -1,4 +1,4 @@
-package sample;
+package shop;
 
 public class ShopItem {
     private int Cost;

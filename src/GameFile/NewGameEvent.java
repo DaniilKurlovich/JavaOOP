@@ -1,4 +1,7 @@
-package sample;
+package GameFile;
+
+import Creatures.Enemy;
+import Creatures.Player;
 
 import java.util.Random;
 

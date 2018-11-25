@@ -1,4 +1,6 @@
-package sample;
+package telegramHandler;
+
+import telegramHandler.TelegramHandler;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,10 +1,12 @@
-package sample;
+package GameFile;
+
+import Creatures.NameGenerator;
+import Creatures.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.List;
 
 public class NewGame {
     private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();

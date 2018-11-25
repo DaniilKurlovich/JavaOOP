@@ -1,4 +1,7 @@
-package sample;
+package GameFile;
+
+import Creatures.Player;
+import GameFile.NewGameEvent;
 
 public class MyStruct {
     private Player player;
