@@ -47,8 +47,11 @@ public class Player {
 
     public void SetDefaultHP(){this.HealthPoint = this.DefaultHP;}
 
-    public void SetReward(int gold){
-        System.out.println("Денег получено: " + gold);
+    public int getMoneyInfo(){
+        return this.gold;
+    }
+
+    public void setReward(int gold){
         this.gold += gold;
     }
 

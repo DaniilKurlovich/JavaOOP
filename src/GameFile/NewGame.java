@@ -135,12 +135,4 @@ public class NewGame {
             return "В магазин можно отправиться только с лагеря.";
         }
     }
-
-    public boolean haveThisPlayer(String chatID){
-        MyStruct info = DataBase.get(chatID);
-        if (info == null){
-            return false;
-        }
-        return true;
-    }
 }
