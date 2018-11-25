@@ -13,6 +13,9 @@ public class NewGame {
     private Map<String, String[]> arrayCommandForEachLocation = new HashMap<String, String[]>();
     private NameGenerator nameGenerator = new NameGenerator();
 
+    public void NewGame(){
+
+    }
     public void addPlayerToDataBase(String chatID, String name, int power, int agility){
         DataBase.put(chatID, new MyStruct(new Player(name, power, agility), "Camp", null));
     }
