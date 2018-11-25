@@ -9,4 +9,6 @@ public abstract class Location {
     public abstract String[] processCommand(MyStruct infoAboutSession, String message);
 
     public abstract String getInfoAboutLocation();
+
+    public abstract String getNameLocation();
 }

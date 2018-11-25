@@ -84,4 +84,9 @@ public class Adventure extends Location {
     public String getInfoAboutLocation() {
         return "ПРЕКЛЮЧЕНЕЕ";
     }
+
+    @Override
+    public String getNameLocation(){
+        return "Adventure";
+    }
 }

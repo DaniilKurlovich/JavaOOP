@@ -36,19 +36,19 @@ public class NewGame {
                 this.addPlayerToDataBase(chatID, "default", 4, 4);
                 return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
                         "либо /location для получения информации о текущей локации в которой вы находитесь.";
-            }
-            else {
+            } else {
                 return "Персонаж уже был создан.";
             }
-        String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
+        else if (infoAboutSession != null)
+            {
+            String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
 
-        if (answer[0].equals("0"))
+            if (!answer[0].equals("0") && locationMap.containsKey(answer[0])) {
+                infoAboutSession.setLocation(locationMap.get(answer[0]));
+            }
             return answer[1];
-
-        if (locationMap.containsKey(answer[0])){
-            infoAboutSession.setLocation(locationMap.get(answer[0]));
         }
-        return answer[1];
+        return "Персонаж не был создан, введите /help";
     }
 
     public Location getLocation(String chatId)

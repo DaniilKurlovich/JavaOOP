@@ -43,4 +43,10 @@ public class Camp extends Location {
     public String getInfoAboutLocation() {
         return "CAMP";
     }
+
+    @Override
+    public String getNameLocation() {
+        return "Camp";
+    }
+
 }

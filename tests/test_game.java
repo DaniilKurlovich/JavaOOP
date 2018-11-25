@@ -28,9 +28,9 @@ public class test_game {
         NewGame testGame = new NewGame();
         testGame.addPlayerToDataBase("qaz", "Test", 100, 100);
         testGame.setRequestFromHandler("qaz", "/adventure");
-        Assert.assertEquals(testGame.getLocation("qaz"), "Adventure");
+        Assert.assertEquals(testGame.getLocation("qaz").getNameLocation(), "Adventure");
         testGame.setRequestFromHandler("qaz", "/home");
-        Assert.assertEquals(testGame.getLocation("qaz"), "Camp");
+        Assert.assertEquals(testGame.getLocation("qaz").getNameLocation(), "Camp");
     }
 
     @Test
@@ -67,4 +67,12 @@ public class test_game {
         player.SetDamage(-5);
         Assert.assertEquals((long)player.GetHealpoint(), 15L);
     }
+
+    @Test
+    public void startPlayWithoutPlayer(){
+        NewGame testGame = new NewGame();
+        Assert.assertEquals(testGame.setRequestFromHandler("qaz", "/adventure"),
+                "Персонаж не был создан, введите /help");
+    }
+
 }
