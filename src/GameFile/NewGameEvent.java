@@ -15,6 +15,7 @@ public class NewGameEvent {
     public NewGameEvent(Player player, String nameEnemy, boolean statusEventIsGood){
         this.player = player;
         this.eventIsProcessing = false;
+
         if (statusEventIsGood){
             this.healthBoost = 5;
             this.gold = 5;
@@ -64,6 +65,8 @@ public class NewGameEvent {
     public boolean eventIsProcessing(){
         return this.eventIsProcessing;
     }
+
+    public int getGold() { return this.gold; }
 
     public String getNameEnemy(){
         return this.enemy.getName();
