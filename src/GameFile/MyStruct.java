@@ -1,25 +1,25 @@
 package GameFile;
 
 import Creatures.Player;
-import GameFile.NewGameEvent;
+import Location.Location;
 
 public class MyStruct {
     private Player player;
-    private String nameLocation;
+    private Location Location;
     private NewGameEvent LastGameEvent;
 
-    public MyStruct(Player player, String nameLocation, NewGameEvent gameEvent){
+    public MyStruct(Player player, Location Location, NewGameEvent gameEvent){
         this.player = player;
-        this.nameLocation = nameLocation;
+        this.Location = Location;
         this.LastGameEvent = gameEvent;
     }
 
-    public void setNameLocation(String nameLocation){
-        this.nameLocation = nameLocation;
+    public void setLocation(Location Location){
+        this.Location = Location;
     }
 
-    public String getNameLocation(){
-        return this.nameLocation;
+    public Location getLocation(){
+        return this.Location;
     }
 
     public Player getPlayer(){
