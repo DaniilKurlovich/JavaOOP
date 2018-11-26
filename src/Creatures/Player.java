@@ -1,8 +1,5 @@
 package Creatures;
 
-import java.io.BufferedReader;
-import java.util.Scanner;
-
 public class Player {
     public String name;
     private int HealthPoint;
@@ -40,6 +37,8 @@ public class Player {
     {
         return this.Power * factor;
     }
+
+    public void restoreHP() { this.HealthPoint = this.DefaultHP; }
 
     public int GetDamage(){
         return this.Power;

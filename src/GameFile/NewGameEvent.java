@@ -25,7 +25,7 @@ public class NewGameEvent {
             int HP= random.nextInt(15) + 2;
             int power = random.nextInt(7) + 1;
             int agility = 10 - power;
-            this.enemy = new Enemy(nameEnemy, HP, power, agility);
+            this.enemy = new Enemy(HP, power, agility);
             this.gold = random.nextInt(40) + 10;
         }
         this.eventIsProcessing = false;

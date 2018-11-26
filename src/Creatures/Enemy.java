@@ -1,5 +1,8 @@
 package Creatures;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.NamedMethodGenerator;
+
+import javax.naming.NameAlreadyBoundException;
 import java.util.Random;
 
 public class Enemy {
@@ -9,8 +12,8 @@ public class Enemy {
     private int Agility;
     private double Aggressiveness = 1.0;
 
-    public Enemy(String name, int HP, int Power, int Agility){
-        this.name = name;
+    public Enemy(int HP, int Power, int Agility){
+        this.name = new NameGenerator().GetName();
         this.HealthPoint = HP;
         this.Power = Power;
         this.Agility = Agility;

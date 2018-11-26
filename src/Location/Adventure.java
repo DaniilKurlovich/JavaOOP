@@ -43,8 +43,9 @@ public class Adventure extends Location {
             if (!infoAboutSession.getPlayer().IsAlive()) {
                 returnedMessage[0] = "Camp";
                 returnedMessage[1] = "Вы подохли и вас отправили в лагерь.";
+                infoAboutSession.getPlayer().restoreHP();
             } else {
-                returnedMessage[0] = "0"; // соре
+                returnedMessage[0] = "0";
                 returnedMessage[1] = "Вы справились в схватке с противником " + gameEvent.getNameEnemy() + "\n"
                         + "Денег получено: " + gameEvent.getGold();
             }
