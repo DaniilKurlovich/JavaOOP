@@ -6,16 +6,12 @@ import Location.Location;
 import Location.Camp;
 import Location.Adventure;
 
-import java.security.acl.LastOwnerException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+
 
 public class NewGame {
     private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();
-    private Map<String, String[]> arrayCommandForEachLocation = new HashMap<String, String[]>();
-    private NameGenerator nameGenerator = new NameGenerator();
     private Map<String, Location> locationMap = new HashMap<String, Location>();
 
     public NewGame(){
@@ -71,47 +67,6 @@ public class NewGame {
         }
         return "Error";
     }
-
-    public int getNumberCommand(String nameLocation, String command){
-        return Arrays.asList(arrayCommandForEachLocation.get(nameLocation)).indexOf(command);
-    }
-
-    private NewGameEvent generateGameEvent(Player player)
-    {
-        Random random = new Random();
-        //Генерируется число, которое будет определять саму вероятность
-        int status = random.nextInt(4);
-        return new NewGameEvent(player, nameGenerator.GetName(), status == 1);
-    }
-
-    private String ComeToCamp(String chatId, boolean wasKilled){
-        MyStruct info = DataBase.get(chatId);
-        info.getPlayer().SetDefaultHP();
-        info.setLocation(locationMap.get("Camp"));
-        if (!wasKilled)
-            return "Добро пожаловать в лагерь. /adventure чтобы отправиться в путешествие";
-        else
-            return "Ты был сильно ранен и ничего не помнишь, но какой-то незнакомец притащил тебя в лагерь. " +
-                    "/adventure начать новое путешествие";
-    }
-
-    private String goToAdventure(String chatId){
-        DataBase.get(chatId).setLocation(locationMap.get("Adventure"));
-        DataBase.get(chatId).setGameEvent(null);
-        return "Ты отправляешься в путешествие. /continue идти дальше, /home вернуться домой";
-    }
-
-//    private String goToShop(String chatId) {
-//        if (DataBase.get(chatId).getLocation().equals("Camp")) {
-//            DataBase.get(chatId).setLocation("Shop");
-//            DataBase.get(chatId).setGameEvent(null);
-//            return "Вы находитесь в магазине";
-//        }
-//        else
-//        {
-//            return "В магазин можно отправиться только с лагеря.";
-//        }
-//    }
 
     public boolean haveThisPlayer(String chatID){
         MyStruct info = DataBase.get(chatID);

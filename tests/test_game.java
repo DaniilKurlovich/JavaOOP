@@ -36,14 +36,8 @@ public class test_game {
     @Test
     public void checkUserInDataBase() {
         NewGame testGame = new NewGame();
-
-        try {
-            testGame.addPlayerToDataBase("qaz", "Test", 100, 100);
-        } catch (ExceptionInInitializerError var3) {
-            Assert.fail(var3.toString());
-        }
-
-        Assert.assertTrue("Test accept", true);
+        testGame.addPlayerToDataBase("qaz", "Test", 100, 100);
+        Assert.assertEquals(testGame.haveThisPlayer("qaz"), true);
     }
 
     @Test

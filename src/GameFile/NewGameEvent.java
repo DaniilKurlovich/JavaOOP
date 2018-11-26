@@ -42,7 +42,6 @@ public class NewGameEvent {
 
     private void fight(){
         Random random = new Random();
-//        double chanceToWin = CalculateChanceForWin(player, enemy);
         int numberOfAttacking = random.nextInt(1);
         while (this.player.GetHealpoint() > -this.healthBoost && this.enemy.isAlive()){
             switch (numberOfAttacking){
