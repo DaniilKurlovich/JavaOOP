@@ -2,9 +2,9 @@ package Creatures;
 
 public class Player {
     public String name;
-    private int HealthPoint;
-    private int Power;
-    private int Agility;
+    private int healthPoint;
+    private int power;
+    private int agility;
     private int gold = 0;
     private int DefaultHP;
     private int winStreak = 0;
@@ -12,39 +12,39 @@ public class Player {
     public Player(String name, int Power, int agility)
     {
         this.name = name;
-        this.HealthPoint = this.DefaultHP = 5 + Power;
-        this.Power = Power;
-        this.Agility = agility;
+        this.healthPoint = this.DefaultHP = 5 + Power;
+        this.power = Power;
+        this.agility = agility;
     }
 
     public void SetDamage(int damage)
     {
-        this.HealthPoint -= damage;
+        this.healthPoint -= damage;
     }
 
-    public boolean IsAlive(){return this.HealthPoint > 0;}
+    public boolean IsAlive(){return this.healthPoint > 0;}
 
     public int[] GetInfo()
     {
-        return new int[] {this.HealthPoint, this.Power, this.Agility};
+        return new int[] {this.healthPoint, this.power, this.agility};
     }
 
-    public int GetAgility(){return this.Agility;}
+    public int GetAgility(){return this.agility;}
 
-    public int GetHealpoint() {return this.HealthPoint;}
+    public int GetHealpoint() {return this.healthPoint;}
 
     public int GetDamage(int factor)
     {
-        return this.Power * factor;
+        return this.power * factor;
     }
 
-    public void restoreHP() { this.HealthPoint = this.DefaultHP; }
+    public void restoreHP() { this.healthPoint = this.DefaultHP; }
 
     public int GetDamage(){
-        return this.Power;
+        return this.power;
     }
 
-    public void SetDefaultHP(){this.HealthPoint = this.DefaultHP;}
+    public void SetDefaultHP(){this.healthPoint = this.DefaultHP;}
 
     public int getMoneyInfo(){
         return this.gold;
@@ -55,7 +55,7 @@ public class Player {
     }
 
     public void GetHealing(int heal){
-        this.HealthPoint += heal;
+        this.healthPoint += heal;
     }
 
     public void SetCountStreak(){ this.winStreak++; }
