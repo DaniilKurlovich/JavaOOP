@@ -1,50 +1,58 @@
 package Creatures;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Player {
-    public String name;
-    private int healthPoint;
+    public String nickname;
+    private int hp;
     private int power;
     private int agility;
     private int gold = 0;
-    private int DefaultHP;
-    private int winStreak = 0;
+    private int defaultHP;
 
-    public Player(String name, int Power, int agility)
+    public Player(String nickname, int Power, int agility)
     {
-        this.name = name;
-        this.healthPoint = this.DefaultHP = 5 + Power;
+        this.nickname = nickname;
+        this.hp = this.defaultHP = 5 + Power;
         this.power = Power;
         this.agility = agility;
     }
 
+    public Player(Map<String, String> infoFromDB) {
+        this.nickname = infoFromDB.get("nickname");
+        hp = Integer.parseInt(infoFromDB.get("hp"));
+        power = Integer.parseInt(infoFromDB.get("power"));
+        agility = Integer.parseInt(infoFromDB.get("agility"));
+        gold = Integer.parseInt(infoFromDB.get("gold"));
+        defaultHP = Integer.parseInt(infoFromDB.get("defaultHP"));
+    }
     public void SetDamage(int damage)
     {
-        this.healthPoint -= damage;
+        this.hp -= damage;
     }
 
-    public boolean IsAlive(){return this.healthPoint > 0;}
-
-    public int[] GetInfo()
-    {
-        return new int[] {this.healthPoint, this.power, this.agility};
-    }
+    public boolean IsAlive(){return this.hp > 0;}
 
     public int GetAgility(){return this.agility;}
 
-    public int GetHealpoint() {return this.healthPoint;}
+    public int GetHealpoint() {return this.hp;}
+
+    public int getDefaultHP() {return this.defaultHP;}
 
     public int GetDamage(int factor)
     {
         return this.power * factor;
     }
 
-    public void restoreHP() { this.healthPoint = this.DefaultHP; }
+    public void restoreHP() { this.hp = this.defaultHP; }
 
     public int GetDamage(){
         return this.power;
     }
 
-    public void SetDefaultHP(){this.healthPoint = this.DefaultHP;}
+    public void SetDefaultHP(){this.hp = this.defaultHP;}
 
     public int getMoneyInfo(){
         return this.gold;
@@ -55,8 +63,17 @@ public class Player {
     }
 
     public void GetHealing(int heal){
-        this.healthPoint += heal;
+        this.hp += heal;
     }
 
-    public void SetCountStreak(){ this.winStreak++; }
+    public Map<String, String> surrializedPlayer(){
+        Map<String, String> resultOfSurrealization = new HashMap<>();
+        resultOfSurrealization.put("nickname", nickname);
+        resultOfSurrealization.put("hp", Integer.toString(GetHealpoint()));
+        resultOfSurrealization.put("agility", Integer.toString(GetAgility()));
+        resultOfSurrealization.put("power", Integer.toString(GetDamage()));
+        resultOfSurrealization.put("gold", Integer.toString(getMoneyInfo()));
+        resultOfSurrealization.put("defaultHP", Integer.toString(getDefaultHP()));
+        return resultOfSurrealization;
+    }
 }

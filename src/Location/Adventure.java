@@ -3,9 +3,7 @@ package Location;
 import Creatures.Player;
 import GameFile.MyStruct;
 import GameFile.NewGameEvent;
-import javafx.util.Pair;
 
-import java.lang.reflect.Array;
 import java.util.Random;
 
 public class Adventure extends Location {
@@ -21,9 +19,9 @@ public class Adventure extends Location {
     Генератор эвентов, если возвращает false, то событие типа 'bad', иначе 'good'
      */
     private boolean generateEvent(){
-        Random rnd = new Random(System.currentTimeMillis());
+        Random rnd = new Random();
         int number = rnd.nextInt(10);
-        if (number < 8)
+        if (number <= 8)
         {
             return false;
         }
@@ -32,24 +30,28 @@ public class Adventure extends Location {
 
     private NewGameEvent generateGameEvent(Player player)
     {
-        return new NewGameEvent(player, player.name, generateEvent());
+        return new NewGameEvent(player, player.nickname, generateEvent());
     }
 
     public String[] getMessageForContinueEvent(MyStruct infoAboutSession){
         String[] returnedMessage = new String[2];
         NewGameEvent gameEvent = generateGameEvent(infoAboutSession.getPlayer());
         int resultEvent = gameEvent.getResultEvent();
-        if (resultEvent < 0) {
-            if (!infoAboutSession.getPlayer().IsAlive()) {
+        if (resultEvent <= 0) {
+            if (infoAboutSession.getPlayer().GetHealpoint() <= -resultEvent) {
                 returnedMessage[0] = "Camp";
                 returnedMessage[1] = "Вы подохли и вас отправили в лагерь.";
                 infoAboutSession.getPlayer().restoreHP();
             } else {
+                infoAboutSession.getPlayer().setReward(gameEvent.getGold());
+                infoAboutSession.getPlayer().SetDamage(-resultEvent);
                 returnedMessage[0] = "0";
                 returnedMessage[1] = "Вы справились в схватке с противником " + gameEvent.getNameEnemy() + "\n"
                         + "Денег получено: " + gameEvent.getGold();
             }
         } else {
+            infoAboutSession.getPlayer().setReward(gameEvent.getGold());
+            infoAboutSession.getPlayer().SetDamage(-resultEvent);
             returnedMessage[0] = "0";
             returnedMessage[1] = "Хп вылечено: 5" + "\n" + "Денег получено: 5";
         }

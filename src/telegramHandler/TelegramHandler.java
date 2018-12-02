@@ -24,7 +24,7 @@ public class TelegramHandler extends TelegramLongPollingBot {
     public void onUpdateReceived(Update e) {
         Message msg = e.getMessage(); // Это нам понадобится
         String txt = msg.getText();
-        game.setRequestFromHandler(msg.getChatId().toString(), txt);
+        sendMsg(msg, game.setRequestFromHandler(msg.getChatId().toString(), txt));
     }
 
     private void sendMsg(Message msg, String text) {

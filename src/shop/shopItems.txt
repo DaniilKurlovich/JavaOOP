@@ -1,11 +1,11 @@
-name: IronSword
+nickname: IronSword
     cost:200
     damage:8
     agility:-3
     hp:0
     description:simple description
 
-name: WoodenSword
+nickname: WoodenSword
     cost:30
     damage:2
     agility:0

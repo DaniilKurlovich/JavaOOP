@@ -22,8 +22,8 @@ public class NewGameEvent {
         }
         else {
             Random random = new Random();
-            int HP= random.nextInt(15) + 2;
-            int power = random.nextInt(7) + 1;
+            int HP= random.nextInt(7) + 2;
+            int power = random.nextInt(6) + 1;
             int agility = 10 - power;
             this.enemy = new Enemy(HP, power, agility);
             this.gold = random.nextInt(40) + 10;
@@ -43,7 +43,7 @@ public class NewGameEvent {
     private void fight(){
         Random random = new Random();
         int numberOfAttacking = random.nextInt(1);
-        while (this.player.GetHealpoint() > -this.healthBoost && this.enemy.isAlive()){
+        while (this.player.GetHealpoint() >= -this.healthBoost && this.enemy.isAlive()){
             switch (numberOfAttacking){
                 case(0):{
                     if (random.nextInt(10) <= player.GetAgility()){
@@ -52,10 +52,12 @@ public class NewGameEvent {
                     numberOfAttacking = (numberOfAttacking + 1) % 2;
                 }
                 case (1):{
-                    if (random.nextInt(10) <= enemy.getAgility()) {
-                        this.healthBoost -= enemy.getDamage();
+                    if (enemy.isAlive()){
+                        if (random.nextInt(10) <= enemy.getAgility()) {
+                            this.healthBoost -= enemy.getDamage();
+                        }
+                        numberOfAttacking = (numberOfAttacking + 1) % 2;
                     }
-                    numberOfAttacking = (numberOfAttacking + 1) % 2;
                 }
             }
         }
@@ -70,4 +72,5 @@ public class NewGameEvent {
     public String getNameEnemy(){
         return this.enemy.getName();
     }
+
 }
