@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class NewGame {
     private MySQLDriver driver;
-    private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();
+//    private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();
     private Map<String, Location> locationMap = new HashMap<String, Location>();
 
     public NewGame(){
@@ -60,9 +60,9 @@ public class NewGame {
         return "Персонаж не был создан, введите /help";
     }
 
-    public Location getLocation(String chatId)
+    public String getLocation(String chatId)
     {
-        return this.DataBase.get(chatId).getLocation();
+        return this.driver.getInformation(chatId).get("location").get(0).toString();
     }
 
     public void setNewLocation(String chatID, Location newLocation){
@@ -83,13 +83,5 @@ public class NewGame {
         infoAboutUser.put("location", arrayAllPlayer.get("location").get(numberUser).toString());
         infoAboutUser.put("chatID", arrayAllPlayer.get("chatID").get(numberUser).toString());
         return infoAboutUser;
-    }
-
-    public boolean haveThisPlayer(String chatID){
-        MyStruct info = DataBase.get(chatID);
-        if (info == null){
-            return false;
-        }
-        return true;
     }
 }
