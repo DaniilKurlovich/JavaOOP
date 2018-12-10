@@ -26,18 +26,18 @@ public class test_game {
     @Test
     public void testMovesInLocation() {
         NewGame testGame = new NewGame();
-        testGame.addPlayerToDataBase("qaz", "Test", 100, 100);
-        testGame.setRequestFromHandler("qaz", "/adventure");
-        Assert.assertEquals(testGame.getLocation("qaz").getNameLocation(), "Adventure");
-        testGame.setRequestFromHandler("qaz", "/home");
-        Assert.assertEquals(testGame.getLocation("qaz").getNameLocation(), "Camp");
+        testGame.setRequestFromHandler("123", "/start");
+        testGame.setRequestFromHandler("123", "/adventure");
+        Assert.assertEquals(testGame.getLocation("123"), "Adventure");
+        testGame.setRequestFromHandler("123", "/home");
+        Assert.assertEquals(testGame.getLocation("123"), "Camp");
     }
 
     @Test
     public void checkUserInDataBase() {
         NewGame testGame = new NewGame();
-        testGame.addPlayerToDataBase("qaz", "Test", 100, 100);
-        Assert.assertEquals(testGame.haveThisPlayer("qaz"), true);
+        testGame.setRequestFromHandler("123", "/start");
+        Assert.assertTrue(testGame.isPlayerInDB("123"));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class test_game {
     @Test
     public void startPlayWithoutPlayer(){
         NewGame testGame = new NewGame();
-        Assert.assertEquals(testGame.setRequestFromHandler("qaz", "/adventure"),
+        Assert.assertEquals(testGame.setRequestFromHandler("412", "/adventure"),
                 "Персонаж не был создан, введите /help");
     }
 

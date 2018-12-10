@@ -32,37 +32,51 @@ public class NewGame {
         driver.setNewInformation(infoAboutNewUser);
     }
 
-    public String setRequestFromHandler(String chatID, String textMessageFromPlayer) {
-        if (textMessageFromPlayer.equals("/help"))
-            return "Если вы только начали игру напишите /start для создания персонажа.";
-        else if (textMessageFromPlayer.equals("/start"))
-            if (!driver.haveThisPlayer(chatID)) {
-                this.addPlayerToDataBase(chatID, "default", 4, 4);
-                return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
-                        "либо /location для получения информации о текущей локации в которой вы находитесь.";
-            } else {
-                return "Персонаж уже был создан.";
-            }
-        Map<String, String> infoAboutPlayer = getInfoAboutConcretePlayer(driver.getInformation(chatID), 0);
-        MyStruct infoAboutSession = new MyStruct(new Player(infoAboutPlayer), locationMap.get(infoAboutPlayer.get("location")), null);
-        if (infoAboutSession != null)
-            {
-            String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
+    private String getInfoPlayer(Map<String, List<Object>> map) {
+        return "Nickname: " + map.get("nickname") + "\n" +
+               "Hp: " + map.get("hp") + "\n" +
+               "Location: " + map.get("location") + "\n" +
+               "Power: " + map.get("power") + "\n" +
+               "Agility: " + map.get("agility") + "\n";
+    }
 
-            if (!answer[0].equals("0") && locationMap.containsKey(answer[0])) {
-                setNewLocation(chatID, locationMap.get(answer[0]));
+    public boolean isPlayerInDB(String chatID){
+        return driver.haveThisPlayer(chatID);
+    }
+
+    public String setRequestFromHandler(String chatID, String textMessageFromPlayer) {
+            if (textMessageFromPlayer.equals("/help"))
+                return "Если вы только начали игру напишите /start для создания персонажа.";
+            else if (textMessageFromPlayer.equals("/start"))
+                if (!driver.haveThisPlayer(chatID)) {
+                    this.addPlayerToDataBase(chatID, "default", 4, 4);
+                    return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
+                            "либо /location для получения информации о текущей локации в которой вы находитесь.";
+                } else {
+                    return "Персонаж уже был создан.";
+                }
+            else if (textMessageFromPlayer.equals("/info")) {
+                return getInfoPlayer(driver.getInformation(chatID));
             }
-            Map<String, String> finalInformationForDB = infoAboutSession.getPlayer().surrializedPlayer();
-            finalInformationForDB.put("chatID", chatID);
-            driver.setNewInformation(finalInformationForDB);
-            return answer[1];
+        if (isPlayerInDB(chatID)) {
+                Map<String, String> infoAboutPlayer = getInfoAboutConcretePlayer(driver.getInformation(chatID), 0);
+                MyStruct infoAboutSession = new MyStruct(new Player(infoAboutPlayer), locationMap.get(infoAboutPlayer.get("location")), null);
+                String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
+
+                if (!answer[0].equals("0") && locationMap.containsKey(answer[0])) {
+                    setNewLocation(chatID, locationMap.get(answer[0]));
+                }
+                Map<String, String> finalInformationForDB = infoAboutSession.getPlayer().surrializedPlayer();
+                finalInformationForDB.put("chatID", chatID);
+                driver.setNewInformation(finalInformationForDB);
+                return answer[1];
         }
         return "Персонаж не был создан, введите /help";
     }
 
-    public Location getLocation(String chatId)
+    public String getLocation(String chatId)
     {
-        return this.DataBase.get(chatId).getLocation();
+        return this.driver.getInformation(chatId).get("location").get(0).toString();
     }
 
     public void setNewLocation(String chatID, Location newLocation){
@@ -85,11 +99,4 @@ public class NewGame {
         return infoAboutUser;
     }
 
-    public boolean haveThisPlayer(String chatID){
-        MyStruct info = DataBase.get(chatID);
-        if (info == null){
-            return false;
-        }
-        return true;
-    }
 }
