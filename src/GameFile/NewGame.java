@@ -20,16 +20,19 @@ public class NewGame {
 
     public NewGame(TelegramHandler telegramHandler){
         driver = new MySQLDriver();
+        initializeLocatipnMap();
         this.telegramHandler = telegramHandler;
-        locationMap.put("Camp", new Camp());
-        locationMap.put("Adventure", new Adventure());
-        locationMap.put("Bar", new Bar());
     }
 
     public NewGame() {
         driver = new MySQLDriver();
+        initializeLocatipnMap();
+    }
+
+    private void initializeLocatipnMap(){
         locationMap.put("Camp", new Camp());
         locationMap.put("Adventure", new Adventure());
+        locationMap.put("Bar", new Bar());
     }
 
     public void addPlayerToDataBase(String chatID, String name, int power, int agility){
