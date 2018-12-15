@@ -7,11 +7,19 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
+import java.util.SplittableRandom;
+
 public class TelegramHandler extends TelegramLongPollingBot {
     private Settings settings = new Settings("telegramCfg.properties");
     private NewGame game;
 
     public TelegramHandler(NewGame game){
+        this.game = game;
+    }
+    public TelegramHandler(){}
+
+    public void setGame(NewGame game){
         this.game = game;
     }
 
@@ -35,6 +43,19 @@ public class TelegramHandler extends TelegramLongPollingBot {
             execute(s);
         } catch (TelegramApiException e){
             e.printStackTrace();
+        }
+    }
+
+    public void sendMsgForGroup(String text, List<String> arrayChatID){
+        for (String chatID:arrayChatID) {
+            SendMessage s = new SendMessage();
+            s.setChatId(chatID);
+            s.setText(text);
+            try { //Чтобы не крашнулась программа при вылете Exception
+                execute(s);
+            } catch (TelegramApiException e){
+                e.printStackTrace();
+            }
         }
     }
 

@@ -59,6 +59,16 @@ public class MySQLDriver {
         requestToDataBase(query, false);
     }
 
+    public List<String> getPlayerInLocation(String nameLocation){
+        String query = String.format("select * from userdb where location = '%s'", nameLocation);
+        List<Object> myList = requestToDataBase(query, true).get("chatID");
+        ArrayList<String> result = new ArrayList<>();
+        for (Object chatID:myList) {
+            result.add(chatID.toString());
+        }
+        return result;
+    }
+
     public Map<String, List<Object>> getInformation(String chatID){
         String query = "select * from userdb where chatID = " + chatID;
         return requestToDataBase(query, true);

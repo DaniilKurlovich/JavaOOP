@@ -3,9 +3,8 @@ package GameFile;
 import Creatures.NameGenerator;
 import Creatures.Player;
 import DataBase.MySQLDriver;
-import Location.Location;
-import Location.Camp;
-import Location.Adventure;
+import Location.*;
+import telegramHandler.TelegramHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +14,19 @@ import java.util.Map;
 
 public class NewGame {
     private MySQLDriver driver;
+    private TelegramHandler telegramHandler;
     private Map<String, MyStruct> DataBase = new HashMap<String, MyStruct>();
     private Map<String, Location> locationMap = new HashMap<String, Location>();
 
-    public NewGame(){
+    public NewGame(TelegramHandler telegramHandler){
+        driver = new MySQLDriver();
+        this.telegramHandler = telegramHandler;
+        locationMap.put("Camp", new Camp());
+        locationMap.put("Adventure", new Adventure());
+        locationMap.put("Bar", new Bar());
+    }
+
+    public NewGame() {
         driver = new MySQLDriver();
         locationMap.put("Camp", new Camp());
         locationMap.put("Adventure", new Adventure());
@@ -69,8 +77,15 @@ public class NewGame {
                 return getInfoPlayer(infoAboutPlayer);
             }
                 String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
-                if (!answer[0].equals("0") && locationMap.containsKey(answer[0])) {
-                    setNewLocation(chatID, locationMap.get(answer[0]));
+                if (!answer[0].equals("0")) {
+                    if (locationMap.containsKey(answer[0])) {
+                        setNewLocation(chatID, locationMap.get(answer[0]));
+                    }
+                    else if (answer[0].equals("1")){
+                        List<String> chatIDPlayeInLocation = driver.getPlayerInLocation(infoAboutSession.getLocation().getNameLocation());
+                        chatIDPlayeInLocation.remove(chatID);
+                        telegramHandler.sendMsgForGroup(answer[1], chatIDPlayeInLocation);
+                    }
                 }
                 Map<String, String> finalInformationForDB = infoAboutSession.getPlayer().surrializedPlayer();
                 finalInformationForDB.put("chatID", chatID);

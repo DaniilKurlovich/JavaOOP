@@ -1,12 +1,9 @@
 package Location;
 
-import java.util.Random;
-import Creatures.Player;
 import GameFile.MyStruct;
-import GameFile.NewGameEvent;
 
-public class Camp extends Location {
-    public enum commands {Adventure("/adventure"), Info("/location"), Bar("/bar");
+public class Bar extends Location {
+    public enum commands {PlayerSay("/say"), Info("/location"), Exit("/exit");
         private String command;
         commands(String s) {
             this.command = s;
@@ -16,6 +13,9 @@ public class Camp extends Location {
 
     @Override
     public String[] processCommand(MyStruct infoAboutSession, String message) {
+        if (!message.startsWith("/")){
+            return new String[]{"1", infoAboutSession.getPlayer().nickname + ": " + message};
+        }
         commands parsedCommand = null;
         for (commands currentCommand : commands.values()) {
             if (currentCommand.command.equals(message))
@@ -26,17 +26,13 @@ public class Camp extends Location {
         }
         else {
             switch (parsedCommand){
-                case Adventure: {
-                    return new String[]{"Adventure", "Вы отправляетесь в приключение, если вы готовы то напишите команду"
-                            + " /continue"};
-                }
-                case Bar:{
-                    return new String[]{"Bar", "Вы зашли в бар."};
+                case Exit:{
+                    return new String[]{"Camp", "ВЫ покинули бар"};
                 }
                 case Info:
                     return new String[]{"0", getInfoAboutLocation()};
                 default: {
-                    return new String[]{"0", "Неверная команда"};
+                    return new String[]{"1", infoAboutSession.getPlayer().nickname + ": " + "жопа"};
                 }
             }
         }
@@ -44,12 +40,11 @@ public class Camp extends Location {
 
     @Override
     public String getInfoAboutLocation() {
-        return "CAMP";
+        return "BAR";
     }
 
     @Override
     public String getNameLocation() {
-        return "Camp";
+        return "Bar";
     }
-
 }
