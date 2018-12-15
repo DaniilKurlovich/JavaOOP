@@ -40,11 +40,6 @@ public class test_game {
         Assert.assertTrue(testGame.isPlayerInDB("123"));
     }
 
-    @Test
-    public void checkOnNotExistingLocation() {
-        NewGame testgame = new NewGame();
-//        Assert.assertEquals(testgame.getInfoAboutLocation("somethinglocation"), "Error");
-    }
 
     @Test
     public void checkOnGettingReward() {

@@ -40,7 +40,9 @@ public class MySQLDriver {
                 map.get(md.getColumnName(i)).add(rs.getObject(i));
             }
         }
-
+        if (map.get("chatID").size() == 0){
+            return null;
+        }
         return map;
     }
 
@@ -74,19 +76,5 @@ public class MySQLDriver {
             resultSetForm.append(String.format("%s = '%s', ", key, arrayInformation.get(key)));
         }
         return resultSetForm.toString().substring(0, resultSetForm.length()-2);
-    }
-
-    private String generateQueryToInsert(Map<String, String> arrayInformation)
-    {
-        StringBuilder resultQueryForm = new StringBuilder();
-        resultQueryForm.append(arrayInformation.get("chatID") + ", ");
-        resultQueryForm.append(arrayInformation.get("nickname") + ", ");
-        resultQueryForm.append(arrayInformation.get("hp") + ", ");
-        resultQueryForm.append(arrayInformation.get("power") + ", ");
-        resultQueryForm.append(arrayInformation.get("agility") + ", ");
-        resultQueryForm.append(arrayInformation.get("gold") + ", ");
-        resultQueryForm.append(arrayInformation.get("defaultHP") + ", ");
-        resultQueryForm.append(arrayInformation.get("location"));
-        return resultQueryForm.toString();
     }
 }
