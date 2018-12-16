@@ -46,7 +46,7 @@ public class NewGameEvent {
         while (this.player.GetHealpoint() >= -this.healthBoost && this.enemy.isAlive()){
             switch (numberOfAttacking){
                 case(0):{
-                    if (random.nextInt(10) <= player.GetAgility()){
+                    if (random.nextInt(10) <= player.getAgility()){
                         enemy.setDamage(player.GetDamage());
                     }
                     numberOfAttacking = (numberOfAttacking + 1) % 2;

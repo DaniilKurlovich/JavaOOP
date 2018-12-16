@@ -64,6 +64,7 @@ public class NewGame {
         }
         Map<String, List<Object>> playerInfo = driver.getInformation(chatID);
         Boolean havePlayer = !(playerInfo == null);
+
         if (textMessageFromPlayer.equals("/start")) {
             if (!havePlayer) {
                 this.addPlayerToDataBase(chatID, "default", 4, 4);
@@ -79,23 +80,34 @@ public class NewGame {
             if (textMessageFromPlayer.equals("/info")) {
                 return getInfoPlayer(infoAboutPlayer);
             }
-                String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
-                if (!answer[0].equals("0")) {
-                    if (locationMap.containsKey(answer[0])) {
-                        setNewLocation(chatID, locationMap.get(answer[0]));
-                    }
-                    else if (answer[0].equals("1")){
-                        List<String> chatIDPlayeInLocation = driver.getPlayerInLocation(infoAboutSession.getLocation().getNameLocation());
-                        chatIDPlayeInLocation.remove(chatID);
-                        telegramHandler.sendMsgForGroup(answer[1], chatIDPlayeInLocation);
-                    }
+            String[] answer = infoAboutSession.getLocation().processCommand(infoAboutSession, textMessageFromPlayer);
+            updatePlayer(infoAboutSession, chatID);
+            if (!answer[0].equals("0")) {
+                if (locationMap.containsKey(answer[0])) {
+                    setNewLocation(chatID, locationMap.get(answer[0]));
                 }
-                Map<String, String> finalInformationForDB = infoAboutSession.getPlayer().surrializedPlayer();
-                finalInformationForDB.put("chatID", chatID);
-                driver.setNewInformation(finalInformationForDB);
-                return answer[1];
+                else if (answer[0].equals("1")){
+                    List<String> chatIDPlayeInLocation = driver.getPlayerInLocation(infoAboutSession.getLocation().getNameLocation());
+                    chatIDPlayeInLocation.remove(chatID);
+                    telegramHandler.sendMsgForGroup(answer[1], chatIDPlayeInLocation);
+                }
+            }
+            Map<String, String> finalInformationForDB = infoAboutSession.getPlayer().surrializedPlayer();
+            finalInformationForDB.put("chatID", chatID);
+            driver.setNewInformation(finalInformationForDB);
+            return answer[1];
         }
         return "Персонаж не был создан, введите /help";
+    }
+
+    public void updatePlayer(MyStruct infoAboutSession, String chatID){
+        Map<String, String> arrayInformation = new HashMap<String, String>(){};
+        arrayInformation.put("chatID", chatID);
+        arrayInformation.put("power", String.valueOf(infoAboutSession.getPlayer().getPower()));
+        arrayInformation.put("agility", String.valueOf(infoAboutSession.getPlayer().getAgility()));
+        arrayInformation.put("defaultHp", String.valueOf(infoAboutSession.getPlayer().getDefaultHP()));
+        arrayInformation.put("gold", String.valueOf(infoAboutSession.getPlayer().getMoneyInfo()));
+        driver.setNewInformation(arrayInformation);
     }
 
     public String getLocation(String chatId)

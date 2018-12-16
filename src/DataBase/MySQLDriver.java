@@ -76,7 +76,7 @@ public class MySQLDriver {
 
     public boolean haveThisPlayer(String chatID){
         return !(requestToDataBase(String.format("select * from userdb where chatID = %s", chatID),
-                true).get("chatID").size() == 0);
+                true) == null);
     }
 
     private String generateSetForReque(Map<String, String> arrayInformation){
@@ -87,4 +87,10 @@ public class MySQLDriver {
         }
         return resultSetForm.toString().substring(0, resultSetForm.length()-2);
     }
+
+    public boolean haveThisNickname(String nickname){
+        return !(requestToDataBase(String.format("select * from userdb where nickname = %s", nickname),
+                true) == null);
+    }
+
 }

@@ -35,11 +35,25 @@ public class Player {
 
     public boolean IsAlive(){return this.hp > 0;}
 
-    public int GetAgility(){return this.agility;}
+    public int getAgility(){return this.agility;}
 
     public int GetHealpoint() {return this.hp;}
 
     public int getDefaultHP() {return this.defaultHP;}
+
+    public void setAgility(int agility) {
+        this.agility = agility;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getPower(){ return this.power; }
+
+    public void setDefaultHP(int hp){
+        this.hp = hp;
+    }
 
     public int GetDamage(int factor)
     {
@@ -66,11 +80,13 @@ public class Player {
         this.hp += heal;
     }
 
+    public void setMoney(int money) { this.gold = money; }
+
     public Map<String, String> surrializedPlayer(){
         Map<String, String> resultOfSurrealization = new HashMap<>();
         resultOfSurrealization.put("nickname", nickname);
         resultOfSurrealization.put("hp", Integer.toString(GetHealpoint()));
-        resultOfSurrealization.put("agility", Integer.toString(GetAgility()));
+        resultOfSurrealization.put("agility", Integer.toString(getAgility()));
         resultOfSurrealization.put("power", Integer.toString(GetDamage()));
         resultOfSurrealization.put("gold", Integer.toString(getMoneyInfo()));
         resultOfSurrealization.put("defaultHP", Integer.toString(getDefaultHP()));
