@@ -64,16 +64,19 @@ public class NewGame {
         }
         Map<String, List<Object>> playerInfo = driver.getInformation(chatID);
         Boolean havePlayer = !(playerInfo == null);
-
-        if (textMessageFromPlayer.equals("/start")) {
-            if (!havePlayer) {
-                this.addPlayerToDataBase(chatID, "default", 4, 4);
-                return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
-                        "либо /location для получения информации о текущей локации в которой вы находитесь.";
-            } else {
-                return "Персонаж уже был создан.";
+        String [] splittedMessage = textMessageFromPlayer.split(" ");
+        if (splittedMessage.length == 2)
+            if (splittedMessage[0].equals("/start") && !(splittedMessage[1].equals("")))
+            {
+                if (!havePlayer) {
+                    this.addPlayerToDataBase(chatID, splittedMessage[1], 4, 4);
+                    return "Персонаж успешно создан. Введите /help для получения информации об игре, " +
+                            "либо /location для получения информации о текущей локации в которой вы находитесь.";
+                }
+                else {
+                    return "Персонаж уже был создан.";
+                }
             }
-        }
         if (havePlayer) {
             Map<String, String> infoAboutPlayer = getInfoAboutConcretePlayer(driver.getInformation(chatID), 0);
             MyStruct infoAboutSession = new MyStruct(new Player(infoAboutPlayer), locationMap.get(infoAboutPlayer.get("location")), null);
