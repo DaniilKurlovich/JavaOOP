@@ -40,7 +40,6 @@ public class NewGame {
         Map<String, String> infoAboutNewUser = new Player(name, power, agility).surrializedPlayer();
         infoAboutNewUser.put("chatID", chatID);
         infoAboutNewUser.put("location", "Camp");
-        System.out.println(infoAboutNewUser);
         driver.setNewInformation(infoAboutNewUser);
     }
 
@@ -136,5 +135,9 @@ public class NewGame {
         infoAboutUser.put("location", arrayAllPlayer.get("location").get(numberUser).toString());
         infoAboutUser.put("chatID", arrayAllPlayer.get("chatID").get(numberUser).toString());
         return infoAboutUser;
+    }
+
+    public void deltePlayer(String chatID){
+        driver.deletePlayerFromDB(chatID);
     }
 }

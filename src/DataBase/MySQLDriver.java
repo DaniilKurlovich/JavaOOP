@@ -93,4 +93,9 @@ public class MySQLDriver {
                 true) == null);
     }
 
+    public void deletePlayerFromDB(String chatID){
+        String query = "delete from userdb where chatID = " + chatID;
+        requestToDataBase(query, false);
+    }
+
 }
